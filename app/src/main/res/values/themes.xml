@@ -1,0 +1,19 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ChatApp1" parent="Theme.AppCompat.DayNight">
+
+    </style>
+
+    <style name="Theme.ChatApp1" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item> <!-- disable default action bar -->
+        <item name="windowNoTitle">true</item>     <!-- remove title -->
+    </style>
+
+    <style name="Theme.ChatApp1.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.ChatApp1.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

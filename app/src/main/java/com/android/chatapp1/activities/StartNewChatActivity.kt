@@ -13,6 +13,9 @@ class StartNewChatActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start_new_chat)
 
+        setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) // Enable back button
+
         val userListView = findViewById<ListView>(R.id.userListView)
         val users = ChatApplication.getRegisteredUsers()
         userListView.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, users)
@@ -25,5 +28,11 @@ class StartNewChatActivity : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+    }
+
+    // Handle back button press
+    override fun onSupportNavigateUp(): Boolean {
+        finish() // Go back to the previous activity (MainActivity)
+        return true
     }
 }

@@ -24,8 +24,12 @@ class ChatScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_screen)
 
+        // Set up the Toolbar
+        setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true) // Enable back button
         otherUsername = intent.getStringExtra("otherUsername")
             ?: throw IllegalStateException("No user specified")
+        supportActionBar?.title = otherUsername // Set the title to the other user's name
 
         messageRecyclerView = findViewById(R.id.messageRecyclerView)
         noMessagesTextView = findViewById(R.id.noMessagesTextView)
@@ -51,7 +55,6 @@ class ChatScreenActivity : AppCompatActivity() {
         messageAdapter = MessageAdapter(messages)
         messageRecyclerView.adapter = messageAdapter
 
-        // Toggle visibility based on whether messages exist
         if (messages.isEmpty()) {
             messageRecyclerView.visibility = TextView.GONE
             noMessagesTextView.visibility = TextView.VISIBLE
@@ -59,10 +62,8 @@ class ChatScreenActivity : AppCompatActivity() {
             messageRecyclerView.visibility = TextView.VISIBLE
             noMessagesTextView.visibility = TextView.GONE
 
-            // Count messages sent by the current user
             val userSentMessages = messages.count { it.isSentByCurrentUser }
             if (userSentMessages == 1) {
-                // Center the first user-sent message
                 messageRecyclerView.post {
                     val layoutManager = messageRecyclerView.layoutManager as LinearLayoutManager
                     val recyclerViewHeight = messageRecyclerView.height
@@ -73,9 +74,14 @@ class ChatScreenActivity : AppCompatActivity() {
                     layoutManager.scrollToPositionWithOffset(firstUserMessagePosition, offset)
                 }
             } else {
-                // Scroll to the latest message for all other cases
                 messageRecyclerView.scrollToPosition(messages.size - 1)
             }
         }
+    }
+
+    // Handle back button press
+    override fun onSupportNavigateUp(): Boolean {
+        finish() // Go back to the previous activity (MainActivity or StartNewChatActivity)
+        return true
     }
 }

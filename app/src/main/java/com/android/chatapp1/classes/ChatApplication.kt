@@ -4,34 +4,37 @@ import android.app.Application
 
 class ChatApplication : Application() {
     data class Message(val sender: String, val content: String, val timestamp: Long, val isSentByCurrentUser: Boolean)
+
+    // Updated User data class with email, address, and age
+    data class User(val username: String, val password: String, val email: String, val address: String, val age: Int)
+
+    data class Conversation(val withUser: String, val messages: MutableList<Message>)
+
     companion object {
-        private val users = mutableMapOf<String, String>()
+        private val users = mutableMapOf<String, User>()
         private val conversations = mutableMapOf<String, MutableList<Conversation>>()
         private lateinit var instance: ChatApplication
         private var currentLoggedInUsername: String? = null
 
         init {
             // Pre-populate with static users
-            users["JohnDoe"] = "password123"
-            users["JaneSmith"] = "password456"
-            users["PeterPan"] = "password789"
+            users["JohnDoe"] = User("JohnDoe", "password123", "john.doe@example.com", "123 Main St", 25)
+            users["JaneSmith"] = User("JaneSmith", "password456", "jane.smith@example.com", "456 Elm St", 30)
+            users["PeterPan"] = User("PeterPan", "password789", "peter.pan@example.com", "789 Oak St", 22)
             users.forEach { (username, _) -> conversations[username] = mutableListOf() }
         }
 
-        data class Conversation(val withUser: String, val messages: MutableList<Message>)
-
-
         fun getInstance(): ChatApplication = instance
 
-        fun registerUser(username: String, password: String): Boolean {
+        fun registerUser(username: String, password: String, email: String, address: String, age: Int): Boolean {
             if (users.containsKey(username)) return false
-            users[username] = password
+            users[username] = User(username, password, email, address, age)
             conversations[username] = mutableListOf()
             return true
         }
 
         fun loginUser(username: String, password: String): Boolean {
-            return users[username] == password
+            return users[username]?.password == password
         }
 
         fun setCurrentLoggedInUser(username: String?) {
@@ -76,15 +79,18 @@ class ChatApplication : Application() {
             return conversations[currentUser] ?: emptyList()
         }
 
-        fun updateProfile(newUsername: String, newPassword: String): Boolean {
+        fun updateProfile(newUsername: String, newPassword: String, newEmail: String, newAddress: String, newAge: Int): Boolean {
             val currentUser = currentLoggedInUsername ?: return false
             if (newUsername != currentUser && users.containsKey(newUsername)) return false
-            val password = users.remove(currentUser)!!
-            users[newUsername] = newPassword
+            val user = users.remove(currentUser)!!
+            users[newUsername] = User(newUsername, newPassword, newEmail, newAddress, newAge)
             conversations[newUsername] = conversations.remove(currentUser)!!
             currentLoggedInUsername = newUsername
             return true
         }
+
+        // Method to get user details
+        fun getUserDetails(username: String): User? = users[username]
     }
 
     override fun onCreate() {

@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var emptyChatListTextView: TextView
     private lateinit var startNewChatFab: FloatingActionButton
     private lateinit var logoutButton: Button
+    private lateinit var profileButton: Button
     private lateinit var chatListAdapter: ChatListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,9 +34,7 @@ class MainActivity : AppCompatActivity() {
         emptyChatListTextView = findViewById(R.id.emptyChatListTextView)
         startNewChatFab = findViewById(R.id.startNewChatFab)
         logoutButton = findViewById(R.id.logoutButton)
-        findViewById<Button>(R.id.profileButton).setOnClickListener {
-            startActivity(Intent(this, ProfileActivity::class.java))
-        }
+        profileButton = findViewById(R.id.profileButton)
 
         chatListRecyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -60,11 +59,15 @@ class MainActivity : AppCompatActivity() {
             finish()
             startActivity(intent)
         }
+
+        profileButton.setOnClickListener {
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
     }
 
     override fun onResume() {
         super.onResume()
-        updateChatList() // Refresh chat list when returning to this activity
+        updateChatList()
     }
 
     private fun updateChatList() {

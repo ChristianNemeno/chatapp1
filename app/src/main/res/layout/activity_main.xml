@@ -27,6 +27,15 @@
                 android:textColor="@android:color/white" />
 
             <Button
+                android:id="@+id/profileButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Profile"
+                android:layout_gravity="end"
+                android:layout_marginEnd="8dp"
+                android:textColor="@android:color/white"/>
+
+            <Button
                 android:id="@+id/logoutButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,9 +55,6 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:listitem="@layout/item_chat"/>
 
-    <!-- TextView for "No recent messages" -->
-
-
     <TextView
         android:id="@+id/emptyChatListTextView"
         android:layout_width="wrap_content"
@@ -66,12 +72,5 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         app:srcCompat="@android:drawable/ic_dialog_email" />
-
-    <Button
-        android:id="@+id/profileButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Profile"
-        android:layout_gravity="end"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
